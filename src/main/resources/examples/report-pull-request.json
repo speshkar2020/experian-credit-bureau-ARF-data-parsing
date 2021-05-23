@@ -1,0 +1,43 @@
+{
+"Eai": "",
+"dbHost":"",  
+"products": {
+    "subscriber": {
+      "preamble": "",
+      "opInitials": "",
+      "subCode": ""
+    },
+    "PrimaryApplicant": {
+      "Name": {
+        "lastname": "",
+        "firstname": ""
+      },
+      "ssn": "",
+      "CurrentAddress": {
+        "Street": "",
+        "city": "",
+        "state": "",
+        "zip": ""
+      },
+      "DOB": "",
+      "AccountType": "",
+      "AddOns": {
+        "ProfileSummary": "",
+        "NewConsumer": "",
+        "DirectCheck": "",
+        "RiskModels": {
+          "VantageScore3": "",
+          "NationalEquiv": ""
+        },
+        "OutputType": {
+          "ARFVersion": "",
+          "Segment130": ""
+        },
+        "Vendor": {
+          "VendorNumber": "",
+          "VendorVersion": ""
+        }
+      }
+    }
+  }
+}

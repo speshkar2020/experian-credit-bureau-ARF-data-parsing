@@ -1,0 +1,88 @@
+#%RAML 1.0
+baseUri: https://Your_Value.cloudhub.io/api/
+baseUriParameters:
+  env:
+    enum:
+      - dev, stg, prod
+title: experian-arf-parsing-utility
+# The version starts from 1.0 and gradually progresses as the API Definition is updated.
+version: 1.0
+
+# Array of all protocols that your API supports
+protocols: [ HTTPS ]
+
+# baseUri: https://localhost:8081/api
+
+mediaType: [ application/json ]
+
+uses:
+  trait: /exchange_modules/Your/Value/common-traits.raml
+  dt: libraries/dataTypes.raml
+  rt: resourceTypes/resourceTypesLibrary.raml
+  
+securitySchemes:
+  basic: !include /exchange_modules/Your/Value/basic-auth-security-scheme.raml
+
+/json-to-text:
+  type:
+    rt.common:
+      error400json: !include examples/errorExamples/error400.json
+      error401json: !include examples/errorExamples/error401.json
+      error403json: !include examples/errorExamples/error403.json
+      error404json: !include examples/errorExamples/error404.json
+      error405json: !include examples/errorExamples/error405.json
+      error406json: !include examples/errorExamples/error406.json
+      error415json: !include examples/errorExamples/error415.json
+      error429json: !include examples/errorExamples/error429.json
+      error500json: !include examples/errorExamples/error500.json
+      error502json: !include examples/errorExamples/error502.json
+      error503json: !include examples/errorExamples/error503.json
+  
+  post:
+      description: Convert the JSON data format to ARF
+      is:  [trait.tracked, trait.client-id-required] 
+      body:
+        application/json:
+          type: !include dataTypes/requests/json-to-text-request.raml
+          example:
+            !include examples/parser/json-to-text-request.raml
+      
+      responses:
+        200:
+          body:
+            text/plain:
+              type: !include dataTypes/responses/json-to-text-response.raml
+              example:
+                !include examples/parser/json-text-response.raml
+
+/arf-to-json:
+  type:
+    rt.common:
+      error400json: !include examples/errorExamples/error400.json
+      error401json: !include examples/errorExamples/error401.json
+      error403json: !include examples/errorExamples/error403.json
+      error404json: !include examples/errorExamples/error404.json
+      error405json: !include examples/errorExamples/error405.json
+      error406json: !include examples/errorExamples/error406.json
+      error415json: !include examples/errorExamples/error415.json
+      error429json: !include examples/errorExamples/error429.json
+      error500json: !include examples/errorExamples/error500.json
+      error502json: !include examples/errorExamples/error502.json
+      error503json: !include examples/errorExamples/error503.json
+  
+  post:
+      description: Convert the ARF data format to JSON
+      is:  [trait.tracked, trait.client-id-required] 
+      body:
+        application/json:
+          type: !include dataTypes/requests/arf-json-request.raml
+          example:
+            !include examples/parser/arf-json-request.raml
+      
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                !include examples/parser/arf-json-response.raml
+              

@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="report-pull-request" format="json">
+      <types:shape format="weave" example="examples/report-pull-request.json"><![CDATA[%dw 2.0
+
+type report_pull_request = {|
+  Eai: String, 
+  dbHost: String, 
+  products: {|
+    subscriber: {|
+      preamble: String, 
+      opInitials: String, 
+      subCode: String
+    |}, 
+    PrimaryApplicant: {|
+      Name: {|
+        lastname: String, 
+        firstname: String
+      |}, 
+      ssn: String, 
+      CurrentAddress: {|
+        Street: String, 
+        city: String, 
+        state: String, 
+        zip: String
+      |}, 
+      DOB: String, 
+      AccountType: String, 
+      AddOns: {|
+        ProfileSummary: String, 
+        NewConsumer: String, 
+        DirectCheck: String, 
+        RiskModels: {|
+          VantageScore3: String, 
+          NationalEquiv: String
+        |}, 
+        OutputType: {|
+          ARFVersion: String, 
+          Segment130: String
+        |}, 
+        Vendor: {|
+          VendorNumber: String, 
+          VendorVersion: String
+        |}
+      |}
+    |}
+  |}
+|} {"example": "{\\\"Eai\\\":\\\"\\\",\\\"dbHost\\\":\\\"\\\",\\\"products\\\":{\\\"subscriber\\\":{\\\"preamble\\\":\\\"\\\",\\\"opInitials\\\":\\\"\\\",\\\"subCode\\\":\\\"\\\"},\\\"PrimaryApplicant\\\":{\\\"Name\\\":{\\\"lastname\\\":\\\"\\\",\\\"firstname\\\":\\\"\\\"},\\\"ssn\\\":\\\"\\\",\\\"CurrentAddress\\\":{\\\"Street\\\":\\\"\\\",\\\"city\\\":\\\"\\\",\\\"state\\\":\\\"\\\",\\\"zip\\\":\\\"\\\"},\\\"DOB\\\":\\\"\\\",\\\"AccountType\\\":\\\"\\\",\\\"AddOns\\\":{\\\"ProfileSummary\\\":\\\"\\\",\\\"NewConsumer\\\":\\\"\\\",\\\"DirectCheck\\\":\\\"\\\",\\\"RiskModels\\\":{\\\"VantageScore3\\\":\\\"\\\",\\\"NationalEquiv\\\":\\\"\\\"},\\\"OutputType\\\":{\\\"ARFVersion\\\":\\\"\\\",\\\"Segment130\\\":\\\"\\\"},\\\"Vendor\\\":{\\\"VendorNumber\\\":\\\"\\\",\\\"VendorVersion\\\":\\\"\\\"}}}}}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="report-pull-response" format="json">
+      <types:shape format="weave" example="examples/report-pull-response.json"><![CDATA[%dw 2.0
+
+type report_pull_response = {|
+  requestKey: String, 
+  serviceProductResponses: Array<{|    bureau: String,     errorResponse: {|      code: String,       message: String,       name: String    |},     serviceBundleResponse: {|      serviceBundleCode: String,       serviceBundlefulfillmentKey: String,       serviceBundlefulfillmentStatus: String    |},     serviceProduct: String,     serviceProductFulfilmentKey: String,     serviceProductObject: String,     serviceProductTypeId: String,     serviceProductValue: String,     status: String  |}>, 
+  responseType: String, 
+  accountName: String, 
+  servicebundlefulfillmentKey: String, 
+  clientKey: String, 
+  errorResponse: {|
+    code: String, 
+    message: String, 
+    name: String
+  |}
+|} {"example": "{\\\"requestKey\\\":\\\"\\\",\\\"serviceProductResponses\\\":[{\\\"bureau\\\":\\\"\\\",\\\"errorResponse\\\":{\\\"code\\\":\\\"\\\",\\\"message\\\":\\\"\\\",\\\"name\\\":\\\"\\\"},\\\"serviceBundleResponse\\\":{\\\"serviceBundleCode\\\":\\\"\\\",\\\"serviceBundlefulfillmentKey\\\":\\\"\\\",\\\"serviceBundlefulfillmentStatus\\\":\\\"\\\"},\\\"serviceProduct\\\":\\\"\\\",\\\"serviceProductFulfilmentKey\\\":\\\"\\\",\\\"serviceProductObject\\\":\\\"\\\",\\\"serviceProductTypeId\\\":\\\"\\\",\\\"serviceProductValue\\\":\\\"\\\",\\\"status\\\":\\\"\\\"}],\\\"responseType\\\":\\\"\\\",\\\"accountName\\\":\\\"\\\",\\\"servicebundlefulfillmentKey\\\":\\\"\\\",\\\"clientKey\\\":\\\"\\\",\\\"errorResponse\\\":{\\\"code\\\":\\\"\\\",\\\"message\\\":\\\"\\\",\\\"name\\\":\\\"\\\"}}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="report-pull-xml" format="xml">
+      <types:example format="xml" element="{http://www.experian.com/NetConnect}NetConnectRequest" location="examples/report-pull-xml.xml"/>
+    </types:type>
+    <types:type name="report-pull-arf" format="xml">
+      <types:example format="xml" element="{http://www.experian.com/WebDelivery}Request" location="examples/report-pull-arf.xml"/>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#68f1855d-22ea-4d02-9f03-a14b87ca3d5c">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="report-pull-request"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#4d66ac1b-36b6-4f52-ac7d-895d3821c2c5">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="report-pull-response"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#4c9a1836-654f-4eed-bc89-da381fc2e867">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="report-pull-request"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="report-pull-arf"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

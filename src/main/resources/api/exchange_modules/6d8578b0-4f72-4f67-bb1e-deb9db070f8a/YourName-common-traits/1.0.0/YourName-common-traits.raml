@@ -1,0 +1,28 @@
+#%RAML 1.0 Library
+
+traits:
+  client-id-required:
+    headers:
+      client_id:
+        type: string
+      client_secret:
+        type: string
+    responses:
+      403:
+        description: Unauthorized or invalid client application credentials
+      500:
+        description: Bad response from authorization server, or WSDL SOAP Fault error    
+  tracked:
+    headers:
+      TransRefGUID:
+        description: Transaction reference for tracking purposes
+        type: string
+        required: false
+        example: 706d67c1-c***
+  versioning:
+    headers:
+      Accept:
+        description: mime-type for application version
+        type: string
+        required: false
+        example: application/vnd.example.v1+json

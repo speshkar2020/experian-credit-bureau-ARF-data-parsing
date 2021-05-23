@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:batch="http://www.mulesoft.org/schema/mule/batch"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd">
+	
+	<flow name="arf-to-json-flow" doc:id="ec3487eb-e16b-4fa3-8444-9e67d35cee1b" >
+		<ee:transform doc:name="Transform Message" doc:id="0eb398b5-5a6d-4df1-acfc-0e380651fa6b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/plain
+---
+payload.arfData]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<file:write doc:name="Write" doc:id="999dd762-6453-498a-ab6d-8545d7a266a7" config-ref="File_Config" path="#[Mule::p('app.home') ++ &quot;/ARFResponse.txt&quot;]"/>
+		<file:read doc:name="Read" doc:id="2955c023-d3b9-439e-8f55-3efb2dbed1dd" config-ref="File_Config" path="#[Mule::p('app.home') ++ &quot;/ARFResponse.txt&quot;]" outputMimeType='application/csv; ignoreemptyline=true; separator="@"; header=false'/>
+		<ee:transform doc:name="Transform Message" doc:id="dcae8949-470b-406a-ab9c-a0db2afc7921" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<set-variable value="#[[]]" doc:name="init combineVar" doc:id="47006890-4a19-4ab2-939d-2bb0cdad9c35" variableName="combineVar"/>
+		<foreach doc:name="For Each" doc:id="a92e0b86-ff57-4e9f-8f78-21cc109f4630" collection="#[payload[0]]">
+			<set-variable value="#[(payload[0][0 to 2]) default '']" doc:name="init currSeg" doc:id="3de45e26-8e03-4c3f-82b9-24ac816060c6" variableName="currSeg" />
+			<logger level="INFO" doc:name="Log currSeg" doc:id="142ab49b-042d-4508-98a9-8d5cf6023981" message='#["Current seg:" ++  vars.currSeg]' />
+			<ee:transform doc:name="Transform Message" doc:id="7f90b0a5-2171-4a03-a353-c1953bdfbce6">
+						<ee:message>
+							<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+import modules::segment_100
+import modules::segment_110
+import modules::segment_200
+import modules::segment_322
+import modules::segment_335
+import modules::segment_350
+import modules::segment_357
+import modules::segment_359
+import modules::segment_361
+import modules::segment_370
+import modules::segment_900
+import modules::segment_950
+---
+vars.currSeg match {
+	case '100' -> segment_100::main({payload: payload})
+	case '110' -> segment_110::main({payload: payload})
+	case '200' -> segment_200::main({payload: payload})
+	case '322' -> segment_322::main({payload: payload})
+	case '335' -> segment_335::main({payload: payload})
+	case '350' -> segment_350::main({payload: payload})
+	case '357' -> segment_357::main({payload: payload})
+	case '359' -> segment_359::main({payload: payload})
+	case '361' -> segment_361::main({payload: payload})
+	case '370' -> segment_370::main({payload: payload})
+	case '900' -> segment_900::main({payload: payload})
+	case '950' -> segment_950::main({payload: payload})
+	else -> null
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+			<choice doc:name="Choice" doc:id="f05262f7-7c6d-4e4e-9229-e38612c17a76" >
+				<when expression="#[payload != null]">
+					<set-variable value="#[output application/json --- vars.combineVar &lt;&lt; payload]" doc:name="Set Variable" doc:id="f4f390aa-85d1-4c1f-9de1-cdaf9b913c7f" variableName="combineVar"/>
+				</when>
+				<otherwise >
+					<logger level="INFO" doc:name="Logger" doc:id="2200abc1-2878-4d17-92f3-e9c73559fcc6" message='#["No Mapping found.. skipping the seg: " ++ vars.currSeg]'/>
+				</otherwise>
+			</choice>
+		</foreach>
+		<set-payload value="#[vars.combineVar]" doc:name="Set Payload" doc:id="9512b899-e84d-4944-9a03-375818cfd3d1" />
+		<ee:transform doc:name="Transform Message" doc:id="5385ac31-2bff-4565-a6cb-1950a09cbb6a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json duplicateKeyAsArray=true
+---
+flatten(payload) reduce ($$ ++ $)]]></ee:set-payload>
+			</ee:message>
+			
+		</ee:transform>
+		<json-logger:logger doc:name="Logger" doc:id="af255fba-a2d6-40bc-917a-590e9ee656f9" config-ref="JSON_Logger_Config" message="end of arf-to-json!" tracePoint="END">
+			<json-logger:content ><![CDATA[#[output application/json ---
+{
+ 	//payload: payload,
+ 	attributes: attributes
+}]]]></json-logger:content>
+		</json-logger:logger>
+	</flow>
+	<flow name="json-to-text-flow" doc:id="78b8a026-66b2-46b2-9895-2409a5d30f6b" >
+		<ee:transform doc:name="transform to text" doc:id="7bd82d3c-7e38-4c1a-8631-cb7b338466d7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/plain
+---
+payload reduce ((item, bcc = "") -> bcc ++ (
+    item.fixedData1 ++ " " ++
+    item.lastName ++ ','++ 
+    item.firstName ++ ' ' ++ item.ssn ++ ';' ++ 
+    item.fixedData2  ++ item.address ++ " " ++
+    item.zip ++ ";" ++ item.fixedData3 ++ item.creditReportId ++ ";" ++ item.fixedData4 ++ item.yearofBirth ++ ";" ++ item.fixedEndHeader ++ ";") ++ '\n')]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<json-logger:logger doc:name="Logger" doc:id="ec39279a-4bec-4cf5-aa3a-12016dbcdf6d" config-ref="JSON_Logger_Config" message="End of json-to-text" tracePoint="END">
+			<json-logger:content ><![CDATA[#[output application/json ---
+{
+ 	//payload: payload,
+ 	attributes: attributes
+}]]]></json-logger:content>
+		</json-logger:logger>
+	</flow>
+	
+	</mule>

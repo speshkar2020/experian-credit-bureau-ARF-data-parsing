@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NetConnectRequest xmlns="http://www.experian.com/NetConnect" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.experian.com/NetConnect NetConnect.xsd">
+   <EAI>HS1H3TUU</EAI>
+   <DBHost>STAR</DBHost>
+   <Request xmlns="http://www.experian.com/WebDelivery" version="1.0">
+      <Products>
+         <CreditProfile>
+            <Subscriber>
+               <Preamble>TBD2</Preamble>
+               <OpInitials>CC</OpInitials>
+               <SubCode>1952892</SubCode>
+            </Subscriber>
+            <PrimaryApplicant>
+               <Name>
+                  <Surname>BREADON</Surname>
+                  <First>JONITH</First>
+               </Name>
+               <SSN>666601975</SSN>
+               <CurrentAddress>
+                  <Street>360 N ARROYO GRANDE  APT 2</Street>
+                  <City>HENDERSON</City>
+                  <State>NV</State>
+                  <Zip>89014</Zip>
+               </CurrentAddress>
+               <DOB>02111973</DOB>
+            </PrimaryApplicant>
+            <AccountType>
+               <Type>3F</Type>
+            </AccountType>
+            <AddOns>
+               <ProfileSummary>Y</ProfileSummary>
+               <NewConsumer>N</NewConsumer>
+               <DirectCheck>N</DirectCheck>
+               <RiskModels>
+                  <VantageScore3>Y</VantageScore3>
+                  <NationalEquiv>Y</NationalEquiv>
+               </RiskModels>
+            </AddOns>
+            <OutputType>
+               <ARF>
+ <ARFVersion>07</ARFVersion>
+ <Segment130>Y</Segment130>
+ </ARF>
+            </OutputType>
+            <Vendor>
+               <VendorNumber>Z80</VendorNumber>
+               <VendorVersion>01</VendorVersion>
+            </Vendor>
+         </CreditProfile>
+      </Products>
+   </Request>
+</NetConnectRequest>

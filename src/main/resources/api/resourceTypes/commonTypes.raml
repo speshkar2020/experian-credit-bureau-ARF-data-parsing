@@ -1,0 +1,610 @@
+#%RAML 1.0 ResourceType
+usage: This is used to respresent the common the elements used by the resources
+
+uses:
+  dt: ../libraries/dataTypes.raml
+  
+get?:
+  responses: 
+    201:
+      description: Successful GET Response
+      body: 
+        application/json:
+          displayName: response
+          description: Response Object
+          
+    400:
+      description: |
+        Bad Request.
+        Unspecified error due to the request being invalid. Do not retry.
+        Limit Exceeded.
+        The upper limit of allowed API calls has been reached. Do not retry.
+      body:
+        application/json:
+          description: |
+            Bad Request.
+            Unspecified error due to the request being invalid. Do not retry.
+            Limit Exceeded.
+            The upper limit of allowed API calls has been reached. Do not retry.
+          type: dt.Error
+          example: <<error400json>>
+        
+    401:
+      description: >
+        Unauthorized.
+
+        Unable to validate specified credentials.
+      body:
+        application/json:
+          description: >
+            Unauthorized.
+
+            Unable to validate specified credentials.
+          type: dt.Error
+          example: <<error401json>>
+        
+    403:
+      description: >
+        Forbidden.
+
+        The client is not authorized to use the given API. Do not retry.
+      body:
+        application/json:
+          description: >
+            Forbidden.
+
+            The client is not authorized to use the given API. Do not retry.
+          type: dt.Error
+          example: <<error403json>>
+        
+    404:
+      description: |
+        Not Found.
+        There is no such API at the given request URL. Do not retry.
+      body:
+        application/json:
+          description: |
+            Not Found.
+            There is no such API at the given request URL. Do not retry.
+          type: dt.Error
+          example: <<error404json>>
+        
+    405:
+      description: |
+        Method Not Allowed.
+        An invalid HTTP VERB was used
+      body:
+        application/json:
+          description: |
+            Method Not Allowed.
+            An invalid HTTP VERB was used
+          type: dt.Error
+          example: <<error405json>>
+        
+    406:
+      description: |
+        Not Acceptable
+        An Accept header with an invalid value was received
+      body:
+        application/json:
+          description: |
+            Not Acceptable
+            An Accept header with an invalid value was received
+          type: dt.Error
+          example: <<error406json>>
+        
+    415:
+      description: |
+        Unsupported Media Type
+        An unsupported media type was sent
+      body:
+        application/json:
+          description: |
+            Unsupported Media Type
+            An unsupported media type was sent
+          type: dt.Error
+          example: <<error415json>>
+        
+    429:
+      description: |
+        Too Many Requests.
+        Too many requests to the API were received within a period of time. Retry.
+      body:
+        application/json:
+          description: |
+            Too Many Requests.
+            Too many requests to the API were received within a period of time. Retry.
+          type: dt.Error
+          example: <<error429json>>
+        
+    500:
+      description: |
+        Internal Failure.
+        Unspecified error occurred on the server. Retry.
+      body:
+        application/json:
+          description: |
+            Internal Failure.
+            Unspecified error occurred on the server. Retry.
+          type: dt.Error
+          example: <<error500json>>
+        
+    502:
+      description: >
+        Bad Gateway.
+
+        Invalid response received from upstream server. Retry.
+      body:
+        application/json:
+          description: >
+            Bad Gateway.
+
+            Invalid response received from upstream server. Retry.
+          type: dt.Error
+          example: <<error502json>>
+        
+    503:
+      description: |
+        Service Unavailable.
+        The API is currently unavailable. Retry.
+      body:
+        application/json:
+          description: |
+            Service Unavailable.
+            The API is currently unavailable. Retry.
+          type: dt.Error
+          example: <<error503json>>
+
+post?:
+  responses: 
+    201:
+      description: Successful POST Response
+      body: 
+        application/json:
+          displayName: response
+          description: Response Object
+         
+    400:
+      description: |
+        Bad Request.
+        Unspecified error due to the request being invalid. Do not retry.
+        Limit Exceeded.
+        The upper limit of allowed API calls has been reached. Do not retry.
+      body:
+        application/json:
+          description: |
+            Bad Request.
+            Unspecified error due to the request being invalid. Do not retry.
+            Limit Exceeded.
+            The upper limit of allowed API calls has been reached. Do not retry.
+          type: dt.Error
+          example: <<error400json>>
+        
+    401:
+      description: >
+        Unauthorized.
+
+        Unable to validate specified credentials.
+      body:
+        application/json:
+          description: >
+            Unauthorized.
+
+            Unable to validate specified credentials.
+          type: dt.Error
+          example: <<error401json>>
+        
+    403:
+      description: >
+        Forbidden.
+
+        The client is not authorized to use the given API. Do not retry.
+      body:
+        application/json:
+          description: >
+            Forbidden.
+
+            The client is not authorized to use the given API. Do not retry.
+          type: dt.Error
+          example: <<error403json>>
+        
+    404:
+      description: |
+        Not Found.
+        There is no such API at the given request URL. Do not retry.
+      body:
+        application/json:
+          description: |
+            Not Found.
+            There is no such API at the given request URL. Do not retry.
+          type: dt.Error
+          example: <<error404json>>
+        
+    405:
+      description: |
+        Method Not Allowed.
+        An invalid HTTP VERB was used
+      body:
+        application/json:
+          description: |
+            Method Not Allowed.
+            An invalid HTTP VERB was used
+          type: dt.Error
+          example: <<error405json>>
+        
+    406:
+      description: |
+        Not Acceptable
+        An Accept header with an invalid value was received
+      body:
+        application/json:
+          description: |
+            Not Acceptable
+            An Accept header with an invalid value was received
+          type: dt.Error
+          example: <<error406json>>
+        
+    415:
+      description: |
+        Unsupported Media Type
+        An unsupported media type was sent
+      body:
+        application/json:
+          description: |
+            Unsupported Media Type
+            An unsupported media type was sent
+          type: dt.Error
+          example: <<error415json>>
+        
+    429:
+      description: |
+        Too Many Requests.
+        Too many requests to the API were received within a period of time. Retry.
+      body:
+        application/json:
+          description: |
+            Too Many Requests.
+            Too many requests to the API were received within a period of time. Retry.
+          type: dt.Error
+          example: <<error429json>>
+        
+    500:
+      description: |
+        Internal Failure.
+        Unspecified error occurred on the server. Retry.
+      body:
+        application/json:
+          description: |
+            Internal Failure.
+            Unspecified error occurred on the server. Retry.
+          type: dt.Error
+          example: <<error500json>>
+        
+    502:
+      description: >
+        Bad Gateway.
+
+        Invalid response received from upstream server. Retry.
+      body:
+        application/json:
+          description: >
+            Bad Gateway.
+
+            Invalid response received from upstream server. Retry.
+          type: dt.Error
+          example: <<error502json>>
+        
+    503:
+      description: |
+        Service Unavailable.
+        The API is currently unavailable. Retry.
+      body:
+        application/json:
+          description: |
+            Service Unavailable.
+            The API is currently unavailable. Retry.
+          type: dt.Error
+          example: <<error503json>>
+
+delete?:
+  responses: 
+    204:
+      description: Successful Delete Response
+      body: 
+        application/json:
+          displayName: response
+          description: Response Object
+          
+    400:
+      description: |
+        Bad Request.
+        Unspecified error due to the request being invalid. Do not retry.
+        Limit Exceeded.
+        The upper limit of allowed API calls has been reached. Do not retry.
+      body:
+        application/json:
+          description: |
+            Bad Request.
+            Unspecified error due to the request being invalid. Do not retry.
+            Limit Exceeded.
+            The upper limit of allowed API calls has been reached. Do not retry.
+          type: dt.Error
+          example: <<error400json>>
+        
+    401:
+      description: >
+        Unauthorized.
+
+        Unable to validate specified credentials.
+      body:
+        application/json:
+          description: >
+            Unauthorized.
+
+            Unable to validate specified credentials.
+          type: dt.Error
+          example: <<error401json>>
+        
+    403:
+      description: >
+        Forbidden.
+
+        The client is not authorized to use the given API. Do not retry.
+      body:
+        application/json:
+          description: >
+            Forbidden.
+
+            The client is not authorized to use the given API. Do not retry.
+          type: dt.Error
+          example: <<error403json>>
+        
+    404:
+      description: |
+        Not Found.
+        There is no such API at the given request URL. Do not retry.
+      body:
+        application/json:
+          description: |
+            Not Found.
+            There is no such API at the given request URL. Do not retry.
+          type: dt.Error
+          example: <<error404json>>
+        
+    405:
+      description: |
+        Method Not Allowed.
+        An invalid HTTP VERB was used
+      body:
+        application/json:
+          description: |
+            Method Not Allowed.
+            An invalid HTTP VERB was used
+          type: dt.Error
+          example: <<error405json>>
+        
+    406:
+      description: |
+        Not Acceptable
+        An Accept header with an invalid value was received
+      body:
+        application/json:
+          description: |
+            Not Acceptable
+            An Accept header with an invalid value was received
+          type: dt.Error
+          example: <<error406json>>
+        
+    415:
+      description: |
+        Unsupported Media Type
+        An unsupported media type was sent
+      body:
+        application/json:
+          description: |
+            Unsupported Media Type
+            An unsupported media type was sent
+          type: dt.Error
+          example: <<error415json>>
+        
+    429:
+      description: |
+        Too Many Requests.
+        Too many requests to the API were received within a period of time. Retry.
+      body:
+        application/json:
+          description: |
+            Too Many Requests.
+            Too many requests to the API were received within a period of time. Retry.
+          type: dt.Error
+          example: <<error429json>>
+        
+    500:
+      description: |
+        Internal Failure.
+        Unspecified error occurred on the server. Retry.
+      body:
+        application/json:
+          description: |
+            Internal Failure.
+            Unspecified error occurred on the server. Retry.
+          type: dt.Error
+          example: <<error500json>>
+        
+    502:
+      description: >
+        Bad Gateway.
+
+        Invalid response received from upstream server. Retry.
+      body:
+        application/json:
+          description: >
+            Bad Gateway.
+
+            Invalid response received from upstream server. Retry.
+          type: dt.Error
+          example: <<error502json>>
+        
+    503:
+      description: |
+        Service Unavailable.
+        The API is currently unavailable. Retry.
+      body:
+        application/json:
+          description: |
+            Service Unavailable.
+            The API is currently unavailable. Retry.
+          type: dt.Error
+          example: <<error503json>>
+        
+put?:
+  responses: 
+    204:
+      description: Successful Put Response
+      body: 
+        application/json:
+          displayName: response
+          description: Response Object
+          
+    400:
+      description: |
+        Bad Request.
+        Unspecified error due to the request being invalid. Do not retry.
+        Limit Exceeded.
+        The upper limit of allowed API calls has been reached. Do not retry.
+      body:
+        application/json:
+          description: |
+            Bad Request.
+            Unspecified error due to the request being invalid. Do not retry.
+            Limit Exceeded.
+            The upper limit of allowed API calls has been reached. Do not retry.
+          type: dt.Error
+          example: <<error400json>>
+        
+    401:
+      description: >
+        Unauthorized.
+
+        Unable to validate specified credentials.
+      body:
+        application/json:
+          description: >
+            Unauthorized.
+
+            Unable to validate specified credentials.
+          type: dt.Error
+          example: <<error401json>>
+        
+    403:
+      description: >
+        Forbidden.
+
+        The client is not authorized to use the given API. Do not retry.
+      body:
+        application/json:
+          description: >
+            Forbidden.
+
+            The client is not authorized to use the given API. Do not retry.
+          type: dt.Error
+          example: <<error403json>>
+        
+    404:
+      description: |
+        Not Found.
+        There is no such API at the given request URL. Do not retry.
+      body:
+        application/json:
+          description: |
+            Not Found.
+            There is no such API at the given request URL. Do not retry.
+          type: dt.Error
+          example: <<error404json>>
+        
+    405:
+      description: |
+        Method Not Allowed.
+        An invalid HTTP VERB was used
+      body:
+        application/json:
+          description: |
+            Method Not Allowed.
+            An invalid HTTP VERB was used
+          type: dt.Error
+          example: <<error405json>>
+        
+    406:
+      description: |
+        Not Acceptable
+        An Accept header with an invalid value was received
+      body:
+        application/json:
+          description: |
+            Not Acceptable
+            An Accept header with an invalid value was received
+          type: dt.Error
+          example: <<error406json>>
+        
+    415:
+      description: |
+        Unsupported Media Type
+        An unsupported media type was sent
+      body:
+        application/json:
+          description: |
+            Unsupported Media Type
+            An unsupported media type was sent
+          type: dt.Error
+          example: <<error415json>>
+        
+    429:
+      description: |
+        Too Many Requests.
+        Too many requests to the API were received within a period of time. Retry.
+      body:
+        application/json:
+          description: |
+            Too Many Requests.
+            Too many requests to the API were received within a period of time. Retry.
+          type: dt.Error
+          example: <<error429json>>
+        
+    500:
+      description: |
+        Internal Failure.
+        Unspecified error occurred on the server. Retry.
+      body:
+        application/json:
+          description: |
+            Internal Failure.
+            Unspecified error occurred on the server. Retry.
+          type: dt.Error
+          example: <<error500json>>
+        
+    502:
+      description: >
+        Bad Gateway.
+
+        Invalid response received from upstream server. Retry.
+      body:
+        application/json:
+          description: >
+            Bad Gateway.
+
+            Invalid response received from upstream server. Retry.
+          type: dt.Error
+          example: <<error502json>>
+        
+    503:
+      description: |
+        Service Unavailable.
+        The API is currently unavailable. Retry.
+      body:
+        application/json:
+          description: |
+            Service Unavailable.
+            The API is currently unavailable. Retry.
+          type: dt.Error
+          example: <<error503json>>
+        

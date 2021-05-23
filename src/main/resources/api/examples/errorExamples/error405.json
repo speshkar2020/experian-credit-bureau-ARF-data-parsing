@@ -1,0 +1,14 @@
+{
+  "errorDetails": {
+    "httpResponseCode": 405,
+    "message": "",
+    "shortDescription": "",
+    "description": "",
+    "additionalInfo": ""
+  },
+  "timestamp": "",
+  "version": "",
+  "apiName": "",
+  "success": false,
+  "correlationId": ""
+}
